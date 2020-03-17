@@ -17,8 +17,8 @@ var (
 	validEmail         = regexp.MustCompile(`^[ -~]+@[ -~]+$`)
 	validPassword      = regexp.MustCompile(`^[ -~]{6,200}$`)
 	validString        = regexp.MustCompile(`^[ -~]{1,200}$`)
-	maxProfiles        = 250
-	maxProfilesPerUser = 10
+	maxProfiles        = 10000
+	maxProfilesPerUser = 10000
 )
 
 func ssoHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
