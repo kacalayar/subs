@@ -16,10 +16,10 @@
 
 This has been forked as the original didn't appear to be maintained. There are a number of changes:
 
-* * Replace CloudFlare DNS with Quad9 to enhance privacy
-* * Disable Let's Encrypt as the library was outdated and it didn't work. Ensure the web interface is not publicly reachable!
-* * Remove 10 user limit
-* * Rebuild Docker image for the above changes
+* Replace CloudFlare DNS with Quad9 to enhance privacy
+* Disable Let's Encrypt as the library was outdated and it didn't work. Ensure the web interface is not publicly reachable!
+* Remove 10 user limit
+* Rebuild Docker image for the above changes
 
 ## Features
 
