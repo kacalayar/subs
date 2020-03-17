@@ -99,6 +99,8 @@ $ subspace --http-host subspace.example.com
 ### Run as a Docker container
 
 ![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/simwood/subspace)
+![Docker Stars](https://img.shields.io/docker/stars/simwood/subspace)
 
 #### Install WireGuard on the host
 
@@ -143,7 +145,9 @@ docker create \
     --volume /usr/bin/wg:/usr/bin/wg \
     --volume /data:/data \
     --env SUBSPACE_HTTP_HOST=subspace.example.com \
-    subspacecloud/subspace:latest
+    --env SUBSPACE_HTTP_INSECURE=true \
+    -env SUBSPACE_LETSENCRYPT=false \
+    simwood/subspace:latest
 
 $ sudo docker start subspace
 
@@ -158,11 +162,11 @@ $ sudo docker logs subspace
 Pull the latest image, remove the container, and re-create the container as explained above.
 
 ```bash
-# Pull the latest image
-$ sudo docker pull simwood/subspace
-
-# Pull specific version
+# Pull a specific version
 $ sudo docker pull simwood/subspace:1.0
+
+# Or the latest image
+$ sudo docker pull simwood/subspace:latest
 
 # Stop the container
 $ sudo docker stop subspace
@@ -173,6 +177,3 @@ $ sudo docker rm subspace
 # Re-create and start the container
 $ sudo docker create ... (see above)
 ```
-
-
-
