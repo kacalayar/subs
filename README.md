@@ -98,6 +98,8 @@ $ subspace --http-host subspace.example.com
 ```
 ### Run as a Docker container
 
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)
+
 #### Install WireGuard on the host
 
 The container expects WireGuard to be installed on the host. The official image is `subspacecloud/subspace`.
@@ -172,5 +174,5 @@ $ sudo docker rm subspace
 $ sudo docker create ... (see above)
 ```
 
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)
+
 
