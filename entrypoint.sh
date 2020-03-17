@@ -27,7 +27,7 @@ if [ -z "${SUBSPACE_HTTP_INSECURE-}" ] ; then
     export SUBSPACE_HTTP_INSECURE="false"
 fi
 
-export NAMESERVER="1.1.1.1"
+export NAMESERVER="9.9.9.9"
 export DEBIAN_FRONTEND="noninteractive"
 
 # Set DNS server
