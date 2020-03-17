@@ -5,27 +5,19 @@ RUN apt-get update \
     && apt-get install -y git \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
 WORKDIR /go/src/github.com/subspacecloud/subspace
 
-RUN go get -v \
-    github.com/jteeuwen/go-bindata/... \
-    github.com/dustin/go-humanize \
-    github.com/julienschmidt/httprouter \
-    github.com/Sirupsen/logrus \
-    github.com/gorilla/securecookie \
-    golang.org/x/crypto/acme/autocert \
-    golang.org/x/time/rate \
-	golang.org/x/crypto/bcrypt \
-    go.uber.org/zap \
-	gopkg.in/gomail.v2 \
-    github.com/crewjam/saml \
-    github.com/dgrijalva/jwt-go \
-    github.com/skip2/go-qrcode
+RUN go get -v github.com/jteeuwen/go-bindata/...
 
 COPY *.go ./
 COPY static ./static
 COPY templates ./templates
 COPY email ./email
+COPY Gopkg.toml ./Gopkg.toml
+
+RUN dep ensure
 
 ARG BUILD_VERSION=unknown
 
