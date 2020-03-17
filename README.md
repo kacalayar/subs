@@ -12,6 +12,15 @@
 
 [Screenshot 4](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot4.png)
 
+## Changes from original
+
+This has been forked as the original didn't appear to be maintained. There are a number of changes:
+
+* * Replace CloudFlare DNS with Quad9 to enhance privacy
+* * Disable Let's Encrypt as the library was outdated and it didn't work. Ensure the web interface is not publicly reachable!
+* * Remove 10 user limit
+* * Rebuild Docker image for the above changes
+
 ## Features
 
 * **WireGuard VPN Protocol**
@@ -25,12 +34,6 @@
 * **Auto-generated Configs**
   * Each client gets a unique downloadable config file.
   * Generates a QR code for easy importing on iOS and Android.
-
-## Run Subspace on Portal Cloud
-
-Portal Cloud is a hosting service that enables anyone to run open source cloud applications.
-
-[Sign up for Portal Cloud](https://portal.cloud/) and get $15 free credit with code **Portal15**.
 
 ## Run Subspace on a VPS
 
@@ -52,18 +55,17 @@ Running Subspace on a VPS is designed to be as simple as possible.
 
 ### 2. Add a DNS record
 
-Create a DNS `A` record in your domain pointing to your server's IP address.
+Create an internal DNS `A` record in your domain pointing to your server's management IP address.
 
 **Example:** `subspace.example.com  A  172.16.1.1`
 
-### 3. Enable Let's Encrypt
-
-Subspace runs a TLS ("SSL") https server on port 443/tcp. It also runs a standard web server on port 80/tcp to redirect clients to the secure server. Port 80/tcp is required for Let's Encrypt verification.
+Create a public DNS `A` record in your domain pointing to your server's WireGuard address.
 
 **Requirements**
 
 * Your server must have a publicly resolvable DNS record.
-* Your server must be reachable over the internet on ports 80/tcp and 443/tcp and 51820/udp (WireGuard).
+* Your server must be reachable over the internet 51820/udp (WireGuard).
+* Your server should not be reachable over the internet on ports 80/tcp or 443/tcp.
 
 ### Usage
 
@@ -109,7 +111,7 @@ apt-get install -y wireguard
 apt-get remove -y dnsmasq
 
 # Set DNS server.
-echo nameserver 1.1.1.1 >/etc/resolv.conf
+echo nameserver 9.9.9.9 >/etc/resolv.conf
 
 # Load modules.
 modprobe wireguard
@@ -167,7 +169,4 @@ $ sudo docker rm subspace
 $ sudo docker create ... (see above)
 ```
 
-## Help / Reporting Bugs
-
-Email support@portal.cloud
 
