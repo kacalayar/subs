@@ -157,7 +157,10 @@ Pull the latest image, remove the container, and re-create the container as expl
 
 ```bash
 # Pull the latest image
-$ sudo docker pull subspacecloud/subspace
+$ sudo docker pull simwood/subspace
+
+# Pull specific version
+$ sudo docker pull simwood/subspace:1.0
 
 # Stop the container
 $ sudo docker stop subspace
@@ -169,4 +172,5 @@ $ sudo docker rm subspace
 $ sudo docker create ... (see above)
 ```
 
+`![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)`
 
