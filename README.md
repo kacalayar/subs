@@ -1,16 +1,16 @@
 # Subspace - A simple WireGuard VPN server GUI
 
-![Screenshot](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot1.png?cachebust=8923409243)
+![Screenshot](https://raw.githubusercontent.com/simwood/subspace/master/screenshot1.png?cachebust=8923409243)
 
 ## Screenshots
 
-[Screenshot 1](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot1.png)
+[Screenshot 1](https://raw.githubusercontent.com/simwood/subspace/master/screenshot1.png)
 
-[Screenshot 2](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot2.png)
+[Screenshot 2](https://raw.githubusercontent.com/simwood/subspace/master/screenshot2.png)
 
-[Screenshot 3](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot3.png)
+[Screenshot 3](https://raw.githubusercontent.com/simwood/subspace/master/screenshot3.png)
 
-[Screenshot 4](https://raw.githubusercontent.com/subspacecloud/subspace/master/screenshot4.png)
+[Screenshot 4](https://raw.githubusercontent.com/simwood/subspace/master/screenshot4.png)
 
 ## Changes from original
 
@@ -104,7 +104,7 @@ $ subspace --http-host subspace.example.com
 
 #### Install WireGuard on the host
 
-The container expects WireGuard to be installed on the host. The official image is `subspacecloud/subspace`.
+The container expects WireGuard to be installed on the host. The official image is `simwood/subspace`.
 
 ```bash
 add-apt-repository -y ppa:wireguard/wireguard
