@@ -146,7 +146,7 @@ docker create \
     --volume /data:/data \
     --env SUBSPACE_HTTP_HOST=subspace.example.com \
     --env SUBSPACE_HTTP_INSECURE=true \
-    -env SUBSPACE_LETSENCRYPT=false \
+    --env SUBSPACE_LETSENCRYPT=false \
     simwood/subspace:latest
 
 $ sudo docker start subspace
