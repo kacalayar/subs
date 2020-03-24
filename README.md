@@ -1,25 +1,12 @@
 # Subspace - A simple WireGuard VPN server GUI
 
-![Screenshot](https://raw.githubusercontent.com/simwood/subspace/master/screenshot1.png?cachebust=8923409243)
+![Docker Pulls](https://img.shields.io/docker/pulls/simwood/subspace)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/simwood/subspace)
 
-## Screenshots
+![Screenshot](screenshot.png)
 
-[Screenshot 1](https://raw.githubusercontent.com/simwood/subspace/master/screenshot1.png)
-
-[Screenshot 2](https://raw.githubusercontent.com/simwood/subspace/master/screenshot2.png)
-
-[Screenshot 3](https://raw.githubusercontent.com/simwood/subspace/master/screenshot3.png)
-
-[Screenshot 4](https://raw.githubusercontent.com/simwood/subspace/master/screenshot4.png)
-
-## Changes from original
-
-This has been forked by [Simwood](https://simwood.com) as the original didn't appear to be maintained. There are a number of changes:
-
-* Replace CloudFlare DNS with Quad9 to enhance privacy
-* Disable Let's Encrypt as the library was outdated and it didn't work. Ensure the web interface is not publicly reachable!
-* Remove 10 user limit
-* Rebuild Docker image and add to Dockerhub
+Additional screenshots: [1](screenshot1.png), [2](screenshot2.png), [3](screenshot3.png), [4](screenshot4.png).
 
 ## Features
 
@@ -35,89 +22,33 @@ This has been forked by [Simwood](https://simwood.com) as the original didn't ap
   * Each client gets a unique downloadable config file.
   * Generates a QR code for easy importing on iOS and Android.
 
-## Run Subspace on a VPS
+## Simwood Fork
 
-Running Subspace on a VPS is designed to be as simple as possible.
+This has been forked by [Simwood](https://simwood.com) as the [original project](https://github.com/subspacecloud/subspace) didn't appear to be maintained. There are a number of changes:
 
-  * Public Docker image.
-  * Single static Go binary with assets bundled.
-  * Automatic TLS using Let's Encrypt.
-  * Redirects http to https.
-  * Works with a reverse proxy or standalone.
+* Replaced CloudFlare DNS with [Quad9](https://www.quad9.net) to enhance privacy
+* Disabled Let's Encrypt as the library was outdated and it didn't work. Ensure the web interface is not publicly reachable!
+* Removed 10 user limit
+* Rebuilt the Docker image (available on [Docker Hub](https://hub.docker.com/r/simwood/subspace))
 
-### 1. Get a server
+## Quickstart (Ubuntu and Docker)
 
-**Recommended Specs**
+1. Get a Ubuntu 18.04 LTS (Bionic Beaver) virtual or dedicated host from your provider of choice. A minimum of 512MB memory recommended.
 
-* Type: VPS or dedicated
-* Distribution: Ubuntu 16.04 (Xenial)
-* Memory: 512MB or greater
+2. *Optional* - Set up an A record pointing to the public IP of the host. For example: `subspace.mydomain.com`.
 
-### 2. Add a DNS record
-
-Create an internal DNS `A` record in your domain pointing to your server's management IP address.
-
-**Example:** `subspace.example.com  A  172.16.1.1`
-
-Create a public DNS `A` record in your domain pointing to your server's WireGuard address.
-
-**Requirements**
-
-* Your server must have a publicly resolvable DNS record.
-* Your server must be reachable over the internet 51820/udp (WireGuard).
-* Your server should not be reachable over the internet on ports 80/tcp or 443/tcp.
-
-### Usage
-
-**Example usage:**
+3. Install and setup WireGuard on the host (run commands as root):
 
 ```bash
-$ subspace --http-host subspace.example.com
-```
-### Usage
-
-```bash
-  -backlink string
-        backlink (optional)
-  -datadir string
-        data dir (default "/data")
-  -debug
-        debug mode
-  -help
-        display help and exit
-  -http-addr string
-        HTTP listen address (default ":80")
-  -http-host string
-        HTTP host
-  -http-insecure
-        enable sessions cookies for http (no https) not recommended
-  -letsencrypt
-        enable TLS using Let's Encrypt on port 443 (default true)
-  -version
-        display version and exit
-```
-### Run as a Docker container
-
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/simwood/subspace?sort=date)
-![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/simwood/subspace)
-![Docker Stars](https://img.shields.io/docker/stars/simwood/subspace)
-
-#### Install WireGuard on the host
-
-The container expects WireGuard to be installed on the host. The official image is `simwood/subspace`.
-
-```bash
+# Add repository and install WireGuard
 add-apt-repository -y ppa:wireguard/wireguard
 apt-get update
 apt-get install -y wireguard
 
-# Remove dnsmasq because it will run inside the container.
-apt-get remove -y dnsmasq
+# Set DNS
+echo nameserver 9.9.9.9 > /etc/resolv.conf
 
-# Set DNS server.
-echo nameserver 9.9.9.9 >/etc/resolv.conf
-
-# Load modules.
+# Load modules
 modprobe wireguard
 modprobe iptable_nat
 modprobe ip6table_nat
@@ -126,54 +57,111 @@ modprobe ip6table_nat
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.all.forwarding=1
 
+# Disable resolved
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
 ```
 
-Follow the official Docker install instructions: [Get Docker CE for Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
+4. Install Docker Engine:
 
-Make sure to change the `--env SUBSPACE_HTTP_HOST` to your publicly accessible domain name.
+The commands below should be all you need to install Docker Engine (CE) on a Ubuntu 18.04.3 (LTS) x64 host. But use the official [Docker Documentation](https://docs.docker.com/install/linux/docker-ce/ubuntu/) if you run into any issues.
 
 ```bash
+# Install packages to allow apt to use a repository over HTTPS
+apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
 
-# Your data directory should be bind-mounted as `/data` inside the container using the `--volume` flag.
-$ mkdir /data
+# Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-docker create \
+# Set up the stable repository
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+# Update apt and install the latest version of Docker Engine (CE) and containerd
+apt-get update
+
+apt-get install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io
+```
+
+5. Run Subspace container:
+
+Replace `subspace.mydomain.com` with the domain from step 2 or public IP.
+
+You can also replace `simwood/subspace:latest` with a specific [tagged version](https://hub.docker.com/r/simwood/subspace/tags), for example: `simwood/subspace:1.0`, but `latest` will be the most recent.
+
+```bash
+docker run -d \
     --name subspace \
     --restart always \
     --network host \
     --cap-add NET_ADMIN \
     --volume /usr/bin/wg:/usr/bin/wg \
     --volume /data:/data \
-    --env SUBSPACE_HTTP_HOST=subspace.example.com \
+    --env SUBSPACE_HTTP_HOST=subspace.mydomain.com \
     --env SUBSPACE_HTTP_INSECURE=true \
     --env SUBSPACE_LETSENCRYPT=false \
     simwood/subspace:latest
-
-$ sudo docker start subspace
-
-$ sudo docker logs subspace
-
-<log output>
-
 ```
 
-#### Updating the container image
+After a few moments you should be able to reach the Subspace interface at `http://subspace.example.com`. You can check the logs from the container using: `docker logs subspace`.
 
-Pull the latest image, remove the container, and re-create the container as explained above.
+### Updating the container
+
+Pull the latest Subspace image:
+
+```
+docker pull simwood/subspace:latest
+```
+
+Or a specific [tagged version](https://hub.docker.com/r/simwood/subspace/tags):
+
+```
+docker pull simwood/subspace:1.0
+```
+
+Remove the old container:
+
+```
+docker rm -f subspace
+```
+
+Then finally create a new container again using the same `docker run -d` command from above that you ran the first time with any values that you might have changed (step 5).
+
+## Static binary
+
+You can also run the [static binary](https://github.com/simwood/subspace/blob/master/subspace-linux-amd64) outside of Docker directly on a AMD64 Linux host:
 
 ```bash
-# Pull a specific version
-$ sudo docker pull simwood/subspace:1.0
-
-# Or the latest image
-$ sudo docker pull simwood/subspace:latest
-
-# Stop the container
-$ sudo docker stop subspace
-
-# Remove the container (data is stored on the mounted volume)
-$ sudo docker rm subspace
-
-# Re-create and start the container
-$ sudo docker create ... (see above)
+./subspace-linux-amd64
 ```
+
+## Building
+
+### Go Binary
+
+```bash
+docker build -t subspace-build -f Dockerfile.build .
+docker run -d --name subspace-build subspace-build tail -f /dev/null
+docker cp subspace-build:/usr/bin/subspace-linux-amd64 .
+docker rm -f subspace-build
+```
+
+### Docker image
+
+```bash
+docker build -t subspace .
+```
+
+## Support
+
+Please [create an issue](https://github.com/simwood/subspace/issues/new) if you encounter any issues or bugs with this project (or create a [pull request](https://github.com/simwood/subspace/pulls)). The Simwood support desk are unable to assist with issues related to this project or Subspace / WireGuard in general.
