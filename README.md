@@ -39,11 +39,13 @@ This has been forked by [Simwood](https://simwood.com) as the [original project]
 
 3. Install and setup Docker, WireGuard and Subspace on the host:
 
+**Make sure you run the following as root!**
+
 ```bash
-curl https://raw.github.com/simwood/subspace/blob/master/ubuntu_install.sh | sudo bash
+bash <(curl -s https://raw.githubusercontent.com/simwood/subspace/master/ubuntu_install.sh)
 ```
 
-Or run the commands manually (as root):
+Or run the commands manually:
 
 ```bash
 # Add repository and install WireGuard
