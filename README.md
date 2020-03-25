@@ -53,6 +53,10 @@ modprobe wireguard
 modprobe iptable_nat
 modprobe ip6table_nat
 
+echo "wireguard" >> /etc/modules
+echo "iptable_nat" >> /etc/modules
+echo "ip6table_nat" >> /etc/modules
+
 # Enable IP forwarding
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.all.forwarding=1
