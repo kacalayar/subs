@@ -37,7 +37,13 @@ This has been forked by [Simwood](https://simwood.com) as the [original project]
 
 2. *Optional* - Set up an A record pointing to the public IP of the host. For example: `subspace.mydomain.com`.
 
-3. Install and setup WireGuard on the host (run commands as root):
+3. Install and setup Docker, WireGuard and Subspace on the host:
+
+```bash
+curl https://raw.github.com/simwood/subspace/blob/master/ubuntu_install.sh | sudo bash
+```
+
+Or run the commands manually (as root):
 
 ```bash
 # Add repository and install WireGuard
