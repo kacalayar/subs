@@ -42,7 +42,7 @@ This has been forked by [Simwood](https://simwood.com) as the [original project]
 **Make sure you run the following as root!**
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/simwood/subspace/master/ubuntu_install.sh)
+bash <(curl -s https://raw.githubusercontent.com/kacalayar/subs/master/ubuntu_install.sh)
 ```
 
 Or run the commands manually:
